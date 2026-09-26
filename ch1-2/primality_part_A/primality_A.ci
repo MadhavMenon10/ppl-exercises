@@ -1,0 +1,11 @@
+
+
+mainmodule primality_A {
+    mainchare Main {
+        entry Main(CkArgMsg* arg);
+        entry void receive_results(unsigned int idx, bool is_prime);
+    };
+    chare Check_Primality {
+        entry Check_Primality(long number, unsigned int idx, CProxy_Main main_proxy);
+    };
+}
