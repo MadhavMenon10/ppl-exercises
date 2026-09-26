@@ -1,5 +1,3 @@
-
-
 mainmodule primality_B {
     mainchare Main {
         entry Main(CkArgMsg* arg);
