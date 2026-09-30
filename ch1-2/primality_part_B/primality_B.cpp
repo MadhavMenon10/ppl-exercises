@@ -16,16 +16,16 @@ class Main : public CBase_Main {
             int K = std::atoi(arg->argv[1]);
             int M = std::atoi(arg->argv[2]);
             count = (K + M - 1) / M;   
+            std::vector<long> numbers(K);
+            results.reserve(K);
+            for (int i = 0; i < K; ++i) {
+                numbers[i] = rand();
+                results.push_back(std::make_pair(numbers[i], false));
+            }
             start_time = CkWallTimer();
             for (int start = 0; start < K; start += M) {
-                int n = std::min(M, K - start);   
-                std::vector<long> chunk(n);
-                for (int j = 0; j < n; ++j) {
-                    long num = rand();
-                    chunk[j] = num;
-                    results.push_back(std::make_pair(num, false));  
-                } 
-                CProxy_Check_Primality::ckNew(n, chunk.data(), static_cast<unsigned int>(start), thisProxy);
+                int n = std::min(M, K - start);
+                CProxy_Check_Primality::ckNew(n, &numbers[start], static_cast<unsigned int>(start), thisProxy);
             }
         }
  
@@ -55,14 +55,14 @@ bool isPrime(const long number) {
     if (number <= 1) {
         return false;
     } 
-    if (n <= 3) {
+    if (number <= 3) {
         return true;
     }
-    if (n % 2 == 0 || n % 3 == 0) {
+    if (number % 2 == 0 || number % 3 == 0) {
         return false;
     }
     for(int i = 5; (i * i) <= number; i += 6) {
-        if ((n % i == 0) || (n % (i + 2) == 0)) {
+        if ((number % i == 0) || (number % (i + 2) == 0)) {
             return false;
         }
     }
